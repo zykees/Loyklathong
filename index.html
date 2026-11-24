@@ -218,24 +218,30 @@
       animation: smokeDrift 2.5s ease-out infinite;
     }
 
-    /* Floating Sky Lantern */
+    /* Floating Sky Lantern (Graceful lifelike ascent from water surface to heavens) */
     @keyframes lanternRise {
       0% {
-        transform: translateY(110vh) translateX(0) scale(0.4);
+        transform: translateY(0) translateX(0) scale(0.9);
         opacity: 0;
       }
-      10% {
-        opacity: 0.85;
+      8% {
+        opacity: 1;
+        transform: translateY(-8vh) translateX(4px) scale(1);
       }
-      50% {
-        transform: translateY(50vh) translateX(30px) scale(0.7);
+      30% {
+        transform: translateY(-32vh) translateX(-14px) scale(0.9);
         opacity: 0.95;
       }
-      90% {
-        opacity: 0.6;
+      60% {
+        transform: translateY(-68vh) translateX(18px) scale(0.75);
+        opacity: 0.9;
+      }
+      85% {
+        transform: translateY(-95vh) translateX(34px) scale(0.55);
+        opacity: 0.7;
       }
       100% {
-        transform: translateY(-10vh) translateX(65px) scale(0.3);
+        transform: translateY(-130vh) translateX(50px) scale(0.35);
         opacity: 0;
       }
     }
@@ -343,15 +349,15 @@
       </div>
     </div>
 
-    <!-- Sky Lanterns Container (โคมลอย) -->
-    <div id="lanternsContainer" class="absolute inset-0 pointer-events-none overflow-hidden z-2"></div>
-
     <!-- Fullscreen Petals Canvas (กลีบดอกไม้ปลิวทั่วฉาก) -->
     <canvas id="petalsCanvas" class="absolute inset-0 pointer-events-none z-3"></canvas>
 
     <!-- Fullscreen Fireworks Interactive Canvas -->
     <canvas id="fireworksCanvas" class="absolute inset-0 pointer-events-auto z-4 cursor-crosshair"></canvas>
   </div>
+
+  <!-- Floating Sky Lanterns Container (โคมลอยลอยเด่นเหนือน้ำและท้องฟ้า) -->
+  <div id="lanternsContainer" class="fixed inset-0 pointer-events-none overflow-hidden" style="z-index: 28;"></div>
 
   <!-- ========================================================
        2. SHIMMERING PINK RIVER & FLOATING WATER SYSTEM
@@ -401,28 +407,29 @@
 
   <!-- ========================================================
        3. TOP NAVIGATION & AMBIENCE CONTROLS
+       Modern Minimal Luxury & Emil Kowalski Tactile Elements
        ======================================================== -->
   <header class="absolute top-0 left-0 w-full z-40 p-3 md:p-5 flex justify-between items-center pointer-events-none">
     <!-- Brand / Title -->
     <div class="flex items-center gap-2.5 pointer-events-auto">
-      <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl glass-pink flex items-center justify-center shadow-lg border border-white/60 btn-spring">
-        <span class="text-xl md:text-2xl filter drop-shadow">🌸</span>
+      <div class="w-10 h-10 md:w-11 md:h-11 rounded-2xl glass-pink flex items-center justify-center shadow-lg border border-white/60 btn-spring text-pink-600">
+        <i data-lucide="sparkles" class="w-5 h-5"></i>
       </div>
       <div>
-        <h1 class="text-base md:text-xl font-bold font-cute text-pink-100 flex items-center gap-1.5 drop-shadow-[0_2px_8px_rgba(255,105,180,0.6)]">
+        <h1 class="text-sm md:text-lg font-bold font-prompt text-pink-100 flex items-center gap-2 drop-shadow-[0_2px_8px_rgba(255,105,180,0.4)]">
           <span>ลอยกระทงออนไลน์</span>
-          <span class="text-xs md:text-sm font-normal px-2 py-0.5 rounded-full bg-pink-500/40 text-pink-200 border border-pink-300/30">Pastel Romance 💕</span>
+          <span class="text-[11px] font-normal px-2 py-0.5 rounded-full bg-pink-500/30 text-pink-200 border border-pink-300/30 tracking-wide font-prompt">Twilight Romance</span>
         </h1>
-        <p class="text-[11px] md:text-xs text-pink-200/80 font-prompt">คืนวันเพ็ญเดือนสิบสอง • สายน้ำสีชมพูใต้แสงจันทร์</p>
+        <p class="text-[11px] text-pink-200/75 font-prompt">คืนวันเพ็ญเดือนสิบสอง • สายน้ำใต้แสงจันทร์</p>
       </div>
     </div>
 
     <!-- Quick Action Toolbars -->
     <div class="flex items-center gap-2 pointer-events-auto">
       <!-- Ambient Audio Toggle -->
-      <button id="audioToggleBtn" onclick="toggleAudio()" class="h-9 md:h-10 px-3 rounded-full glass-pink text-pink-100 flex items-center gap-1.5 text-xs md:text-sm font-prompt btn-spring border border-white/50 hover:bg-pink-400/40" title="เปิด/ปิดเสียงเพลงและสายน้ำ">
-        <span id="audioIcon">🔇</span>
-        <span id="audioLabel" class="hidden sm:inline">เสียงดนตรี</span>
+      <button id="audioToggleBtn" onclick="toggleAudio()" class="h-9 md:h-10 px-3.5 rounded-full glass-pink text-pink-100 flex items-center gap-2 text-xs md:text-sm font-prompt btn-spring border border-white/50 hover:bg-pink-400/40" title="เปิด/ปิดเสียงบรรยากาศ">
+        <span id="audioIcon" class="flex items-center"><i data-lucide="volume-x" class="w-4 h-4"></i></span>
+        <span id="audioLabel" class="hidden sm:inline">ดนตรี</span>
         <span id="audioWave" class="hidden items-end gap-0.5 h-3">
           <span class="w-0.5 h-full bg-pink-300 animate-pulse"></span>
           <span class="w-0.5 h-2/3 bg-pink-300 animate-pulse" style="animation-delay: 0.2s"></span>
@@ -431,14 +438,14 @@
       </button>
 
       <!-- Launch Sky Lantern Button -->
-      <button onclick="spawnSkyLantern()" class="h-9 md:h-10 px-3 rounded-full glass-pink text-pink-100 flex items-center gap-1.5 text-xs md:text-sm font-prompt btn-spring border border-white/50 hover:bg-pink-400/40" title="ปล่อยโคมลอยสู่ฟ้า">
-        <span>🏮</span>
+      <button onclick="spawnSkyLantern(true)" class="h-9 md:h-10 px-3.5 rounded-full glass-pink text-pink-100 flex items-center gap-1.5 text-xs md:text-sm font-prompt btn-spring border border-white/50 hover:bg-pink-400/40" title="ปล่อยโคมลอยสู่ฟ้า">
+        <i data-lucide="flame" class="w-4 h-4 text-amber-300"></i>
         <span class="hidden sm:inline">ปล่อยโคม</span>
       </button>
 
       <!-- My Krathongs History Modal Toggle -->
-      <button onclick="openHistoryModal()" class="h-9 md:h-10 px-3 rounded-full glass-pink text-pink-100 flex items-center gap-1.5 text-xs md:text-sm font-prompt btn-spring border border-white/50 hover:bg-pink-400/40" title="ดูกระทงที่เคยลอย">
-        <span>📜</span>
+      <button onclick="openHistoryModal()" class="h-9 md:h-10 px-3.5 rounded-full glass-pink text-pink-100 flex items-center gap-1.5 text-xs md:text-sm font-prompt btn-spring border border-white/50 hover:bg-pink-400/40" title="ดูกระทงที่เคยลอย">
+        <i data-lucide="bookmark" class="w-4 h-4 text-pink-200"></i>
         <span class="hidden sm:inline">กระทงของฉัน</span>
         <span id="myKrathongCountBadge" class="w-4 h-4 rounded-full bg-pink-500 text-white text-[10px] font-bold flex items-center justify-center ml-0.5">0</span>
       </button>
@@ -450,53 +457,79 @@
     </div>
   </header>
 
-  <!-- Sky Fireworks Touch Hint (Positioned gently under the header brand, fades out after 6 seconds) -->
-  <div id="skyTouchHint" class="absolute top-[72px] md:top-[80px] left-4 md:left-6 pointer-events-none z-20 px-3.5 py-1.5 rounded-full glass-dark text-pink-200 text-xs font-cute border border-pink-300/40 shadow-lg flex items-center gap-1.5 opacity-90 transition-opacity duration-1000 whitespace-nowrap">
-    <span>✨</span>
-    <span>แตะท้องฟ้าเพื่อจุดพลุหัวใจ &amp; ขอพรร่วมกัน</span>
-    <span>🎆</span>
+  <!-- Sky Fireworks Touch Hint (Modern pill under brand logo) -->
+  <div id="skyTouchHint" class="absolute top-[72px] md:top-[80px] left-4 md:left-6 pointer-events-none z-20 px-3.5 py-1.5 rounded-full glass-dark text-pink-200 text-xs font-prompt border border-pink-300/40 shadow-lg flex items-center gap-2 opacity-90 transition-opacity duration-1000 whitespace-nowrap">
+    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-pink-300"></i>
+    <span>แตะท้องฟ้าเพื่อจุดพลุขอพร</span>
   </div>
 
   <!-- ========================================================
        4. MAIN FLOATING CONTROL PANEL (KRATHONG CUSTOMIZER & WISH)
-       Pink Glassmorphism • Emil Kowalski Spring Micro-interactions
+       Modern Minimal Luxury • Emil Kowalski Tactile Micro-interactions
        ======================================================== -->
-  <aside id="mainPanel" class="absolute bottom-4 left-4 right-4 md:bottom-6 md:right-6 md:left-auto md:w-[410px] max-h-[85vh] z-30 flex flex-col rounded-3xl glass-card shadow-glow-pink border border-white/80 p-4 md:p-5 overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]">
+  <aside id="mainPanel" class="absolute bottom-4 left-4 right-4 md:bottom-6 md:right-6 md:left-auto md:w-[415px] max-h-[88vh] z-30 flex flex-col rounded-3xl glass-card shadow-glow-pink border border-white/80 p-4 md:p-5 overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]">
     <!-- Panel Header & Minimize handle for mobile -->
-    <div class="flex items-center justify-between pb-3 border-b border-pink-200/40">
-      <div class="flex items-center gap-2">
-        <span class="text-xl">💖</span>
+    <div class="flex items-center justify-between pb-2.5 border-b border-pink-200/50">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-pink-500/15 text-pink-600 flex items-center justify-center border border-pink-200/60 shadow-sm">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+        </div>
         <div>
-          <h2 class="text-base font-bold text-pink-900 font-cute flex items-center gap-1">
-            <span>สร้างกระทงคู่ใจ &amp; อธิษฐาน</span>
+          <h2 class="text-sm md:text-base font-bold text-pink-950 font-prompt">
+            ออกแบบกระทงและอธิษฐาน
           </h2>
-          <p class="text-[11px] text-pink-800/80 font-prompt">เลือกกระทงหวาน เติมชื่อ และส่งคำอธิษฐาน</p>
+          <p class="text-[11px] text-pink-700/80 font-prompt">เลือกรูปแบบ ตกแต่ง และส่งคำอธิษฐานลงสู่สายน้ำ</p>
         </div>
       </div>
-      <button onclick="toggleMainPanel()" class="text-pink-600/70 hover:text-pink-800 p-1 rounded-full hover:bg-pink-100/50 btn-spring md:hidden">
+      <button onclick="toggleMainPanel()" class="text-pink-600/70 hover:text-pink-900 p-1 rounded-full hover:bg-pink-100/50 btn-spring md:hidden" title="ย่อหน้าต่าง">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
     </div>
 
     <!-- Scrollable Customizer Form -->
-    <div class="flex-1 overflow-y-auto pr-1 py-3 space-y-4 text-xs md:text-sm font-prompt">
+    <div class="flex-1 overflow-y-auto pr-1 py-3 space-y-3.5 text-xs font-prompt">
+
+      <!-- Real-time Live Krathong Showcase (Emil Kowalski Interactive Stage) -->
+      <div class="relative w-full rounded-2xl bg-gradient-to-b from-white/70 via-pink-50/50 to-pink-100/40 border border-white/90 p-3 shadow-sm flex flex-col items-center justify-center overflow-hidden">
+        <!-- Ambient Glowing Aura matching candle color -->
+        <div id="showcaseGlow" class="absolute w-28 h-28 rounded-full bg-pink-400/20 blur-xl transition-all duration-500 pointer-events-none"></div>
+
+        <!-- Water ripple ring in showcase -->
+        <div class="absolute bottom-5 w-32 h-6 rounded-full bg-pink-300/20 blur-md pointer-events-none"></div>
+
+        <!-- Live Krathong SVG Render with bobbing -->
+        <div id="liveKrathongStage" class="relative z-10 w-36 h-28 flex items-center justify-center krathong-bob drop-shadow-md">
+          <!-- Rendered dynamically by updateLivePreview() -->
+        </div>
+
+        <!-- Real-time Status Badge -->
+        <div class="relative z-10 flex items-center justify-between w-full px-2 pt-2 border-t border-pink-200/40 text-[11px] text-pink-950 font-prompt">
+          <span id="showcaseModelName" class="font-medium text-pink-900">กระทงดอกบัวชมพู</span>
+          <span class="flex items-center gap-1.5 text-pink-700 font-medium">
+            <span id="showcaseCandleDot" class="w-2.5 h-2.5 rounded-full bg-[#ff6584] inline-block shadow-sm"></span>
+            <span id="showcaseCandleLabel">เทียนสีชมพูกุหลาบ</span>
+          </span>
+        </div>
+      </div>
 
       <!-- Step 1: Mode Switcher (ลอยเดี่ยว vs ลอยคู่) - Sliding Spring Pill -->
       <div>
-        <label class="block text-xs font-semibold text-pink-900 mb-1.5 font-cute flex items-center justify-between">
+        <label class="block text-xs font-semibold text-pink-950 mb-1.5 font-prompt flex items-center justify-between">
           <span>1. รูปแบบการลอยกระทง</span>
-          <span id="modeBadgeHint" class="text-[11px] text-pink-600 font-normal">โหมดคู่รักสุดหวาน 💑</span>
+          <span id="modeBadgeHint" class="text-[11px] text-pink-600 font-normal">โหมดคู่รัก (Couple)</span>
         </label>
-        <div class="relative p-1 rounded-2xl bg-pink-200/50 border border-white/70 flex items-center">
-          <!-- Active Slider Indicator (Default Couple mode: positioned on right) -->
+        <div class="relative p-1 rounded-2xl bg-pink-200/50 border border-white/80 flex items-center">
+          <!-- Active Slider Indicator -->
           <div id="modeSliderPill" class="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 shadow-md transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]" style="transform: translateX(100%);"></div>
           
-          <!-- Mode Buttons -->
-          <button type="button" onclick="setFloatingMode('solo')" class="relative z-10 w-1/2 py-1.5 text-center font-medium font-cute text-xs md:text-sm rounded-xl transition-colors duration-200" id="btnModeSolo">
-            👤 ลอยเดี่ยว (Solo)
+          <!-- Mode Buttons with Lucide Icons -->
+          <button type="button" onclick="setFloatingMode('solo')" class="relative z-10 w-1/2 py-2 text-center font-medium font-prompt text-xs rounded-xl transition-colors duration-200 flex items-center justify-center gap-1.5" id="btnModeSolo">
+            <i data-lucide="user" class="w-3.5 h-3.5"></i>
+            <span>ลอยเดี่ยว (Solo)</span>
           </button>
-          <button type="button" onclick="setFloatingMode('couple')" class="relative z-10 w-1/2 py-1.5 text-center font-medium font-cute text-xs md:text-sm rounded-xl transition-colors duration-200 text-white font-bold" id="btnModeCouple">
-            💑 ลอยคู่ (Romantic)
+          <button type="button" onclick="setFloatingMode('couple')" class="relative z-10 w-1/2 py-2 text-center font-medium font-prompt text-xs rounded-xl transition-colors duration-200 text-white font-bold flex items-center justify-center gap-1.5" id="btnModeCouple">
+            <i data-lucide="heart" class="w-3.5 h-3.5 fill-current"></i>
+            <span>ลอยคู่ (Couple)</span>
           </button>
         </div>
       </div>
@@ -507,83 +540,94 @@
         <div id="soloNameWrapper" class="hidden">
           <label class="block text-[11px] font-medium text-pink-900 mb-1">ชื่อของคุณ</label>
           <div class="relative">
-            <input type="text" id="soloNameInput" maxlength="30" placeholder="เช่น น้องพรีม, คนน่ารัก2024" class="w-full px-3.5 py-2 rounded-xl bg-white/70 border border-pink-300/80 text-pink-950 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white transition-all text-xs">
-            <span class="absolute right-3 top-2 text-pink-400">🌸</span>
+            <input type="text" id="soloNameInput" maxlength="30" placeholder="ระบุชื่อของคุณ (เช่น พรีม, กานต์)" class="w-full px-3.5 py-2.5 rounded-xl bg-white/80 border border-pink-300/80 text-pink-950 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white transition-all text-xs">
           </div>
         </div>
 
         <!-- Couple Dual Inputs -->
         <div id="coupleNameWrapper" class="space-y-1.5">
           <label class="block text-[11px] font-medium text-pink-900 mb-1">ชื่อสองเราเชื่อมสายใยรัก</label>
-          <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-1.5">
-            <input type="text" id="coupleName1Input" maxlength="25" placeholder="ชื่อคุณ (เช่น ต้นกล้า)" class="w-full px-3 py-2 rounded-xl bg-white/70 border border-pink-300/80 text-pink-950 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white transition-all text-xs text-center">
+          <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+            <input type="text" id="coupleName1Input" maxlength="25" placeholder="ชื่อคุณ (เช่น ต้นกล้า)" class="w-full px-3 py-2.5 rounded-xl bg-white/80 border border-pink-300/80 text-pink-950 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white transition-all text-xs text-center font-medium">
             
-            <!-- Animated Heart Connector -->
-            <div class="w-7 h-7 rounded-full bg-pink-500/20 flex items-center justify-center text-pink-600 heart-pulse" title="ใจผูกกัน">
-              <span class="text-sm">❤️</span>
+            <!-- Minimal Heart Connector -->
+            <div class="w-7 h-7 rounded-full bg-pink-500/15 border border-pink-300/50 flex items-center justify-center text-pink-600 heart-pulse" title="ใจผูกกัน">
+              <i data-lucide="heart" class="w-3.5 h-3.5 fill-current"></i>
             </div>
 
-            <input type="text" id="coupleName2Input" maxlength="25" placeholder="ชื่อคนพิเศษ (เช่น ใบเฟิร์น)" class="w-full px-3 py-2 rounded-xl bg-white/70 border border-pink-300/80 text-pink-950 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white transition-all text-xs text-center">
+            <input type="text" id="coupleName2Input" maxlength="25" placeholder="ชื่อคนพิเศษ (เช่น ใบเฟิร์น)" class="w-full px-3 py-2.5 rounded-xl bg-white/80 border border-pink-300/80 text-pink-950 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white transition-all text-xs text-center font-medium">
           </div>
         </div>
       </div>
 
-      <!-- Step 3: Krathong Model Selection Carousel -->
+      <!-- Step 3: Krathong Model Selection Grid -->
       <div>
-        <label class="block text-xs font-semibold text-pink-900 mb-1.5 font-cute flex items-center justify-between">
-          <span>2. เลือกแบบกระทงหวาน</span>
+        <label class="block text-xs font-semibold text-pink-950 mb-1.5 font-prompt flex items-center justify-between">
+          <span>2. เลือกแบบกระทง</span>
           <span id="selectedKrathongTitle" class="text-[11px] text-pink-600 font-normal">กระทงดอกบัวชมพู</span>
         </label>
         <div class="grid grid-cols-4 gap-2">
           <!-- Krathong 1: Lotus -->
-          <button type="button" onclick="selectKrathong('lotus')" id="krathongCard-lotus" class="krathong-choice-card relative p-1.5 rounded-2xl bg-white/50 border-2 border-pink-400 shadow-sm flex flex-col items-center btn-spring ring-2 ring-pink-300/80">
-            <div class="w-12 h-12 flex items-center justify-center pointer-events-none" id="previewThumb-lotus"></div>
-            <span class="text-[10px] font-cute text-pink-950 mt-1 truncate w-full text-center">ดอกบัวชมพู</span>
+          <button type="button" onclick="selectKrathong('lotus')" id="krathongCard-lotus" class="krathong-choice-card relative p-2 rounded-2xl bg-white/60 border-2 border-pink-400 shadow-sm flex flex-col items-center btn-spring ring-2 ring-pink-300/80">
+            <div class="w-11 h-11 flex items-center justify-center pointer-events-none" id="previewThumb-lotus"></div>
+            <span class="text-[10px] font-prompt font-medium text-pink-950 mt-1 truncate w-full text-center">ดอกบัวชมพู</span>
           </button>
 
           <!-- Krathong 2: Rose -->
-          <button type="button" onclick="selectKrathong('rose')" id="krathongCard-rose" class="krathong-choice-card relative p-1.5 rounded-2xl bg-white/30 border border-pink-200/80 flex flex-col items-center btn-spring hover:bg-white/60">
-            <div class="w-12 h-12 flex items-center justify-center pointer-events-none" id="previewThumb-rose"></div>
-            <span class="text-[10px] font-cute text-pink-950 mt-1 truncate w-full text-center">กลีบกุหลาบ</span>
+          <button type="button" onclick="selectKrathong('rose')" id="krathongCard-rose" class="krathong-choice-card relative p-2 rounded-2xl bg-white/30 border border-pink-200/80 flex flex-col items-center btn-spring hover:bg-white/60">
+            <div class="w-11 h-11 flex items-center justify-center pointer-events-none" id="previewThumb-rose"></div>
+            <span class="text-[10px] font-prompt font-medium text-pink-950 mt-1 truncate w-full text-center">กลีบกุหลาบ</span>
           </button>
 
           <!-- Krathong 3: Banana Leaf -->
-          <button type="button" onclick="selectKrathong('banana')" id="krathongCard-banana" class="krathong-choice-card relative p-1.5 rounded-2xl bg-white/30 border border-pink-200/80 flex flex-col items-center btn-spring hover:bg-white/60">
-            <div class="w-12 h-12 flex items-center justify-center pointer-events-none" id="previewThumb-banana"></div>
-            <span class="text-[10px] font-cute text-pink-950 mt-1 truncate w-full text-center">ใบตองวิจิตร</span>
+          <button type="button" onclick="selectKrathong('banana')" id="krathongCard-banana" class="krathong-choice-card relative p-2 rounded-2xl bg-white/30 border border-pink-200/80 flex flex-col items-center btn-spring hover:bg-white/60">
+            <div class="w-11 h-11 flex items-center justify-center pointer-events-none" id="previewThumb-banana"></div>
+            <span class="text-[10px] font-prompt font-medium text-pink-950 mt-1 truncate w-full text-center">ใบตองวิจิตร</span>
           </button>
 
           <!-- Krathong 4: Bear Bread -->
-          <button type="button" onclick="selectKrathong('bear')" id="krathongCard-bear" class="krathong-choice-card relative p-1.5 rounded-2xl bg-white/30 border border-pink-200/80 flex flex-col items-center btn-spring hover:bg-white/60">
-            <div class="w-12 h-12 flex items-center justify-center pointer-events-none" id="previewThumb-bear"></div>
-            <span class="text-[10px] font-cute text-pink-950 mt-1 truncate w-full text-center">ขนมปังน้องหมี</span>
+          <button type="button" onclick="selectKrathong('bear')" id="krathongCard-bear" class="krathong-choice-card relative p-2 rounded-2xl bg-white/30 border border-pink-200/80 flex flex-col items-center btn-spring hover:bg-white/60">
+            <div class="w-11 h-11 flex items-center justify-center pointer-events-none" id="previewThumb-bear"></div>
+            <span class="text-[10px] font-prompt font-medium text-pink-950 mt-1 truncate w-full text-center">ขนมปังน้องหมี</span>
           </button>
         </div>
       </div>
 
-      <!-- Step 4: Candle Color & Flower Decor Customization -->
-      <div class="p-2.5 rounded-2xl bg-pink-100/50 border border-pink-200/80 space-y-2">
+      <!-- Step 4: Candle Color & Flower Decor Customization (Fixed & Tactile) -->
+      <div class="p-3 rounded-2xl bg-pink-100/50 border border-pink-200/80 space-y-2.5">
         <div class="flex items-center justify-between">
-          <span class="text-[11px] font-semibold text-pink-900 font-cute">✨ สีเทียนอธิษฐาน:</span>
-          <div class="flex items-center gap-1.5" id="candleColorPalette">
-            <!-- Rose Pink -->
-            <button type="button" onclick="setCandleColor('#ff6584', 'ชมพูกุหลาบ')" class="candle-color-dot w-5 h-5 rounded-full bg-[#ff6584] ring-2 ring-pink-500 scale-110 btn-spring shadow-sm" title="ชมพูกุหลาบ"></button>
+          <div>
+            <span class="text-xs font-semibold text-pink-950 font-prompt block">สีเทียนอธิษฐาน</span>
+            <span class="text-[10px] text-pink-700/80 font-prompt">แตะเพื่อเปลี่ยนสีเทียนและแสงไฟ</span>
+          </div>
+          <!-- Tactile Color Dots with Active Checkmark -->
+          <div class="flex items-center gap-2" id="candleColorPalette">
+            <!-- Rose Pink (Default Active) -->
+            <button type="button" data-color="#ff6584" data-label="ชมพูกุหลาบ" onclick="setCandleColor('#ff6584', 'ชมพูกุหลาบ', this)" class="candle-color-btn relative w-7 h-7 rounded-full bg-[#ff6584] ring-2 ring-offset-2 ring-pink-500 scale-105 shadow-sm btn-spring flex items-center justify-center text-white cursor-pointer" title="ชมพูกุหลาบ">
+              <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+            </button>
             <!-- Warm Gold -->
-            <button type="button" onclick="setCandleColor('#ffd166', 'ทองอำพัน')" class="candle-color-dot w-5 h-5 rounded-full bg-[#ffd166] ring-1 ring-white/80 btn-spring shadow-sm" title="ทองอำพัน"></button>
+            <button type="button" data-color="#ffd166" data-label="ทองอำพัน" onclick="setCandleColor('#ffd166', 'ทองอำพัน', this)" class="candle-color-btn relative w-7 h-7 rounded-full bg-[#ffd166] ring-1 ring-white/80 shadow-sm btn-spring flex items-center justify-center text-slate-800 cursor-pointer" title="ทองอำพัน">
+              <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5] hidden"></i>
+            </button>
             <!-- Mystic Violet -->
-            <button type="button" onclick="setCandleColor('#c084fc', 'ม่วงพาสเทล')" class="candle-color-dot w-5 h-5 rounded-full bg-[#c084fc] ring-1 ring-white/80 btn-spring shadow-sm" title="ม่วงพาสเทล"></button>
+            <button type="button" data-color="#c084fc" data-label="ม่วงพาสเทล" onclick="setCandleColor('#c084fc', 'ม่วงพาสเทล', this)" class="candle-color-btn relative w-7 h-7 rounded-full bg-[#c084fc] ring-1 ring-white/80 shadow-sm btn-spring flex items-center justify-center text-white cursor-pointer" title="ม่วงพาสเทล">
+              <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5] hidden"></i>
+            </button>
             <!-- Pure White -->
-            <button type="button" onclick="setCandleColor('#ffffff', 'ขาวบริสุทธิ์')" class="candle-color-dot w-5 h-5 rounded-full bg-white ring-1 ring-pink-200 btn-spring shadow-sm" title="ขาวบริสุทธิ์"></button>
+            <button type="button" data-color="#ffffff" data-label="ขาวบริสุทธิ์" onclick="setCandleColor('#ffffff', 'ขาวบริสุทธิ์', this)" class="candle-color-btn relative w-7 h-7 rounded-full bg-white ring-1 ring-pink-300 shadow-sm btn-spring flex items-center justify-center text-pink-600 cursor-pointer" title="ขาวบริสุทธิ์">
+              <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5] hidden"></i>
+            </button>
           </div>
         </div>
 
-        <div class="flex items-center justify-between pt-1 border-t border-pink-200/40">
-          <span class="text-[11px] font-semibold text-pink-900 font-cute">🌸 ดอกไม้ประดับเสริม:</span>
-          <select id="charmDecorSelect" onchange="updateKrathongPreview()" class="bg-white/80 text-[11px] text-pink-900 rounded-lg px-2 py-1 border border-pink-300 focus:outline-none focus:ring-1 focus:ring-pink-400">
-            <option value="jasmine">🌼 ดอกมะลิหอม (ความรักบริสุทธิ์)</option>
-            <option value="rosePetals">🌹 กลีบกุหลาบแดง (รักหวานซึ้ง)</option>
-            <option value="goldDust">✨ ผงทองคำเปลวมงคล (ร่ำรวยรุ่งเรือง)</option>
-            <option value="hearts">💖 ละอองหัวใจชมพู (เสน่ห์จับใจ)</option>
+        <div class="flex items-center justify-between pt-2 border-t border-pink-200/50">
+          <span class="text-xs font-semibold text-pink-950 font-prompt">ดอกไม้ประดับเสริม</span>
+          <select id="charmDecorSelect" onchange="updateKrathongPreview()" class="bg-white/80 text-xs text-pink-950 rounded-xl px-2.5 py-1.5 border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400 font-prompt cursor-pointer">
+            <option value="jasmine">ดอกมะลิหอม (ความรักบริสุทธิ์)</option>
+            <option value="rosePetals">กลีบกุหลาบแดง (รักหวานซึ้ง)</option>
+            <option value="goldDust">ผงทองคำเปลว (ความเจริญรุ่งเรือง)</option>
+            <option value="hearts">ละอองหัวใจ (เสน่ห์จับใจ)</option>
           </select>
         </div>
       </div>
@@ -591,27 +635,27 @@
       <!-- Step 5: Wish Textarea & Random Wish Generator -->
       <div>
         <div class="flex items-center justify-between mb-1.5">
-          <label class="text-xs font-semibold text-pink-900 font-cute">3. คำอธิษฐานจากหัวใจ</label>
-          <button type="button" onclick="rollRandomWish()" class="text-[11px] font-cute text-pink-600 hover:text-pink-800 bg-pink-200/60 hover:bg-pink-300/60 px-2 py-0.5 rounded-full border border-pink-300/80 flex items-center gap-1 btn-spring">
-            <span class="inline-block animate-spin-slow">🎲</span>
-            <span>สุ่มคำอธิษฐานหวานๆ</span>
+          <label class="text-xs font-semibold text-pink-950 font-prompt">3. คำอธิษฐาน</label>
+          <button type="button" onclick="rollRandomWish()" class="text-xs font-medium text-pink-700 hover:text-pink-900 bg-pink-100/80 hover:bg-pink-200/80 px-2.5 py-1 rounded-full border border-pink-300/80 flex items-center gap-1.5 btn-spring font-prompt">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-pink-600"></i>
+            <span>สุ่มคำอธิษฐาน</span>
           </button>
         </div>
 
         <div class="relative">
-          <textarea id="wishTextarea" rows="3" maxlength="150" placeholder="พิมพ์คำอธิษฐานของคุณ... ขอให้พระแม่คงคาคุ้มครอง และความรักสดใสตลอดไป" class="w-full px-3 py-2 rounded-2xl bg-white/75 border border-pink-300/90 text-pink-950 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white transition-all text-xs resize-none"></textarea>
-          <div class="flex justify-between items-center text-[10px] text-pink-400 px-1 mt-0.5">
-            <span>แตะ "สุ่มคำอธิษฐาน" เพื่อรับไอเดียน่ารักๆ</span>
+          <textarea id="wishTextarea" rows="3" maxlength="150" placeholder="พิมพ์คำอธิษฐานของคุณ... ขอให้สายน้ำนำพาความสุขและความรักที่มั่นคงมาสู่ชีวิต" class="w-full px-3.5 py-2.5 rounded-2xl bg-white/80 border border-pink-300 text-pink-950 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white transition-all text-xs resize-none font-prompt leading-relaxed"></textarea>
+          <div class="flex justify-between items-center text-[10px] text-pink-500 px-1 mt-1 font-prompt">
+            <span>แตะปุ่มสุ่มคำอธิษฐานเพื่อรับข้อความ</span>
             <span id="charCountLabel">0 / 150</span>
           </div>
         </div>
 
-        <!-- Quick Wish Theme Badges -->
-        <div class="flex flex-wrap gap-1 mt-2">
-          <button type="button" onclick="pickWishTheme('loveCouple')" class="text-[10px] px-2 py-0.5 rounded-full bg-pink-100 hover:bg-pink-200 text-pink-700 border border-pink-200/80 btn-spring">💕 รักยืนยาว</button>
-          <button type="button" onclick="pickWishTheme('soulmate')" class="text-[10px] px-2 py-0.5 rounded-full bg-pink-100 hover:bg-pink-200 text-pink-700 border border-pink-200/80 btn-spring">💘 เจอเนื้อคู่</button>
-          <button type="button" onclick="pickWishTheme('prosperity')" class="text-[10px] px-2 py-0.5 rounded-full bg-pink-100 hover:bg-pink-200 text-pink-700 border border-pink-200/80 btn-spring">✨ การงานการเงิน</button>
-          <button type="button" onclick="pickWishTheme('happiness')" class="text-[10px] px-2 py-0.5 rounded-full bg-pink-100 hover:bg-pink-200 text-pink-700 border border-pink-200/80 btn-spring">🌸 ความสุขใจ</button>
+        <!-- Quick Wish Theme Badges (Modern, no emojis) -->
+        <div class="flex flex-wrap gap-1.5 mt-2">
+          <button type="button" onclick="pickWishTheme('loveCouple')" class="text-[11px] px-2.5 py-0.5 rounded-full bg-white/70 hover:bg-white text-pink-800 border border-pink-200 shadow-sm btn-spring font-prompt">รักมั่นคง</button>
+          <button type="button" onclick="pickWishTheme('soulmate')" class="text-[11px] px-2.5 py-0.5 rounded-full bg-white/70 hover:bg-white text-pink-800 border border-pink-200 shadow-sm btn-spring font-prompt">พบเนื้อคู่</button>
+          <button type="button" onclick="pickWishTheme('prosperity')" class="text-[11px] px-2.5 py-0.5 rounded-full bg-white/70 hover:bg-white text-pink-800 border border-pink-200 shadow-sm btn-spring font-prompt">การงานการเงิน</button>
+          <button type="button" onclick="pickWishTheme('happiness')" class="text-[11px] px-2.5 py-0.5 rounded-full bg-white/70 hover:bg-white text-pink-800 border border-pink-200 shadow-sm btn-spring font-prompt">ความสุขใจ</button>
         </div>
       </div>
 
@@ -620,16 +664,15 @@
     <!-- Step 6: Launch & Share Action Buttons (Emil Kowalski Bouncy Springs) -->
     <div class="pt-3 border-t border-pink-200/50 space-y-2">
       <!-- Main Launch Krathong Button -->
-      <button type="button" onclick="launchKrathong()" class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white font-cute font-bold text-sm md:text-base shadow-glow-pink flex items-center justify-center gap-2 btn-spring border border-pink-300/40 hover:brightness-105 active:scale-95">
-        <span class="text-lg">🌸</span>
-        <span>ลอยกระทงลงสายน้ำสีชมพู</span>
-        <span class="text-sm">✨</span>
+      <button type="button" onclick="launchKrathong()" class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white font-prompt font-semibold text-sm shadow-glow-pink flex items-center justify-center gap-2 btn-spring border border-pink-300/40 hover:brightness-105 active:scale-95">
+        <i data-lucide="send" class="w-4 h-4"></i>
+        <span>ปล่อยกระทงลงสู่สายน้ำ</span>
       </button>
 
       <!-- Share Memory Card Button -->
-      <button type="button" onclick="openMemoryCardModal()" class="w-full py-2 px-3 rounded-xl bg-white/60 hover:bg-white/90 text-pink-800 font-cute font-medium text-xs flex items-center justify-center gap-1.5 btn-spring border border-pink-200">
-        <span>💌</span>
-        <span>บันทึกการ์ดความทรงจำ (แชร์ลง IG Story)</span>
+      <button type="button" onclick="openMemoryCardModal()" class="w-full py-2.5 px-3 rounded-xl bg-white/70 hover:bg-white text-pink-900 font-prompt font-medium text-xs flex items-center justify-center gap-2 btn-spring border border-pink-200 shadow-sm">
+        <i data-lucide="image" class="w-4 h-4 text-pink-600"></i>
+        <span>บันทึกการ์ดความทรงจำ (IG Story)</span>
       </button>
     </div>
   </aside>
@@ -640,37 +683,36 @@
   <div id="wishInspectModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-purple-950/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
     <div class="relative w-full max-w-sm rounded-3xl glass-card border border-white/80 p-5 shadow-2xl space-y-4 scale-95 transition-transform duration-300" id="wishInspectCard">
       <!-- Close Button -->
-      <button onclick="closeWishInspector()" class="absolute top-4 right-4 text-pink-400 hover:text-pink-600 p-1 rounded-full hover:bg-pink-100/50 btn-spring">
+      <button onclick="closeWishInspector()" class="absolute top-4 right-4 text-pink-500 hover:text-pink-700 p-1.5 rounded-full hover:bg-pink-100/50 btn-spring" title="ปิดหน้าต่าง">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
 
       <!-- Header with Krathong Visual -->
       <div class="text-center pt-2">
         <div id="inspectKrathongPreview" class="w-24 h-24 mx-auto mb-2 flex items-center justify-center drop-shadow-lg"></div>
-        <div id="inspectModeBadge" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-cute bg-pink-100 text-pink-700 border border-pink-200 mb-1.5">
-          <span>💑</span> <span>ลอยคู่รัก</span>
+        <div id="inspectModeBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-prompt bg-rose-100 text-rose-700 border border-rose-200 mb-1.5">
+          <i data-lucide="heart" class="w-3.5 h-3.5 fill-current"></i>
+          <span>ลอยคู่รัก</span>
         </div>
-        <h3 id="inspectOwnerName" class="text-lg font-bold font-cute text-pink-900">
-          ต้นกล้า ❤️ ใบเฟิร์น
+        <h3 id="inspectOwnerName" class="text-base font-bold font-prompt text-pink-950">
+          ต้นกล้า &amp; ใบเฟิร์น
         </h3>
         <p id="inspectTimestamp" class="text-[11px] text-pink-500 font-prompt">เพิ่งลอยเมื่อสักครู่</p>
       </div>
 
       <!-- Wish Quote Card -->
-      <div class="p-3.5 rounded-2xl bg-white/80 border border-pink-200/80 text-pink-950 font-prompt text-xs leading-relaxed relative">
-        <span class="text-pink-300 text-xl font-serif absolute -top-2 left-2">“</span>
-        <p id="inspectWishText" class="relative z-10 px-2 italic">
+      <div class="p-4 rounded-2xl bg-white/80 border border-pink-200/80 text-pink-950 font-prompt text-xs leading-relaxed relative">
+        <p id="inspectWishText" class="relative z-10 italic">
           ขอให้เราสองคนรักกันหวานชื่น จับมือผ่านทุกอุปสรรคไปด้วยกันอย่างมีความสุขนะคะ
         </p>
-        <span class="text-pink-300 text-xl font-serif absolute -bottom-4 right-2">”</span>
       </div>
 
       <!-- Interaction: Send Hearts to this Krathong -->
-      <div class="flex items-center justify-between pt-2">
-        <button id="sendHeartBtn" onclick="likeCurrentInspectedKrathong()" class="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-pink-400 to-rose-500 text-white font-cute text-xs font-semibold flex items-center justify-center gap-1.5 shadow-md btn-spring">
-          <span>💖</span>
-          <span>ส่งหัวใจให้กระทงนี้</span>
-          <span id="inspectHeartCount" class="ml-1 bg-white/30 px-1.5 py-0.2 rounded-full text-[10px]">12</span>
+      <div class="flex items-center justify-between pt-1">
+        <button id="sendHeartBtn" onclick="likeCurrentInspectedKrathong()" class="flex-1 py-2.5 px-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-prompt text-xs font-medium flex items-center justify-center gap-2 shadow-md btn-spring">
+          <i data-lucide="heart" class="w-4 h-4 fill-current"></i>
+          <span>ส่งหัวใจให้กำลังใจ</span>
+          <span id="inspectHeartCount" class="ml-1 bg-white/30 px-2 py-0.5 rounded-full text-[11px] font-semibold">12</span>
         </button>
       </div>
     </div>
@@ -678,38 +720,37 @@
 
   <!-- ========================================================
        6. MEMORY CARD MODAL: INSTAGRAM STORY EXPORT CARD
-       Hallmark Romantic Style Keepsake Card • html2canvas Export
+       Hallmark Luxury Keepsake Card • html2canvas Export
        ======================================================== -->
   <div id="memoryCardModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-purple-950/60 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
     <div class="relative w-full max-w-sm flex flex-col items-center">
       <!-- Close Button -->
-      <button onclick="closeMemoryCardModal()" class="absolute -top-11 right-0 text-white/90 hover:text-white p-2 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur btn-spring">
+      <button onclick="closeMemoryCardModal()" class="absolute -top-11 right-0 text-white/90 hover:text-white p-2 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur btn-spring" title="ปิด">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
 
       <!-- The Exportable Story Card (9:16 Ratio / Pure Luxury Romantic Hallmark Aesthetic) -->
       <div id="exportableCard" class="w-full rounded-[2.5rem] bg-gradient-to-b from-[#2a133e] via-[#63274e] to-[#c25e79] p-6 text-white shadow-2xl border-4 border-pink-200/60 relative overflow-hidden flex flex-col justify-between" style="min-height: 520px;">
-        <!-- Delicate Floral Border Ornament -->
-        <div class="absolute inset-2 rounded-[2rem] border border-pink-300/30 pointer-events-none"></div>
-        <div class="absolute top-4 left-4 text-pink-300/40 text-lg">🌸</div>
-        <div class="absolute top-4 right-4 text-pink-300/40 text-lg">🌸</div>
-        <div class="absolute bottom-4 left-4 text-pink-300/40 text-lg">🌸</div>
-        <div class="absolute bottom-4 right-4 text-pink-300/40 text-lg">🌸</div>
+        <!-- Delicate Minimal Geometric Star Ornaments -->
+        <div class="absolute inset-2.5 rounded-[2rem] border border-pink-300/25 pointer-events-none"></div>
+        <svg class="absolute top-4 left-4 w-4 h-4 text-pink-300/40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
+        <svg class="absolute top-4 right-4 w-4 h-4 text-pink-300/40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
+        <svg class="absolute bottom-4 left-4 w-4 h-4 text-pink-300/40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
+        <svg class="absolute bottom-4 right-4 w-4 h-4 text-pink-300/40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
 
         <!-- Moon & Stars in Card Background -->
         <div class="absolute top-6 right-6 w-16 h-16 rounded-full bg-pink-100/30 blur-sm pointer-events-none"></div>
 
         <!-- Card Header -->
         <div class="relative z-10 text-center pt-2">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/40 text-[11px] font-cute text-pink-100 mb-2">
-            <span>✨</span>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/40 text-[11px] font-prompt text-pink-100 mb-2">
+            <i data-lucide="sparkles" class="w-3 h-3 text-pink-200"></i>
             <span id="cardBadgeYearText">ความทรงจำวันลอยกระทง</span>
-            <span>✨</span>
           </div>
-          <h2 class="text-xl font-bold font-cute text-pink-100 drop-shadow-md">
+          <h2 class="text-lg font-bold font-prompt text-pink-100 drop-shadow-md">
             Loy Krathong Romantic Night
           </h2>
-          <p class="text-[11px] text-pink-200/80 font-prompt">ลอยกระทงออนไลน์ • ธีมชมพูโรแมนติก</p>
+          <p class="text-[11px] text-pink-200/80 font-prompt">ลอยกระทงออนไลน์ • สายน้ำใต้แสงจันทร์</p>
         </div>
 
         <!-- Center: Krathong High-Res Preview with Glowing Ripple -->
@@ -728,8 +769,8 @@
         <div class="relative z-10 space-y-3 pb-2 text-center">
           <!-- Names -->
           <div class="inline-block px-4 py-1.5 rounded-2xl bg-white/25 backdrop-blur border border-white/50">
-            <h3 id="cardNamesText" class="text-base font-bold font-cute text-white drop-shadow">
-              ต้นกล้า ❤️ ใบเฟิร์น
+            <h3 id="cardNamesText" class="text-sm font-bold font-prompt text-white drop-shadow">
+              ต้นกล้า &amp; ใบเฟิร์น
             </h3>
           </div>
 
@@ -741,20 +782,20 @@
           </div>
 
           <!-- Date & Watermark Stamp -->
-          <div class="flex items-center justify-between text-[10px] text-pink-200/70 pt-1 px-1">
+          <div class="flex items-center justify-between text-[10px] text-pink-200/80 pt-1 px-1 font-prompt">
             <span id="cardDateText">๒๔ พฤศจิกายน ๒๕๖๗</span>
-            <span>💖 Wishing you eternal happiness</span>
+            <span>Wishing you eternal happiness</span>
           </div>
         </div>
       </div>
 
       <!-- Action Buttons below the Card -->
       <div class="w-full grid grid-cols-2 gap-2 mt-4">
-        <button onclick="downloadMemoryCardImage()" id="downloadCardBtn" class="py-2.5 px-3 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-cute font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg btn-spring">
+        <button onclick="downloadMemoryCardImage()" id="downloadCardBtn" class="py-2.5 px-3 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-prompt font-semibold text-xs flex items-center justify-center gap-1.5 shadow-lg btn-spring">
           <i data-lucide="download" class="w-4 h-4"></i>
           <span>บันทึกรูปภาพ (.PNG)</span>
         </button>
-        <button onclick="copyWishFromCard()" class="py-2.5 px-3 rounded-2xl bg-white/80 text-pink-900 font-cute font-bold text-xs flex items-center justify-center gap-1.5 shadow btn-spring hover:bg-white">
+        <button onclick="copyWishFromCard()" class="py-2.5 px-3 rounded-2xl bg-white/80 text-pink-900 font-prompt font-semibold text-xs flex items-center justify-center gap-1.5 shadow btn-spring hover:bg-white">
           <i data-lucide="copy" class="w-4 h-4"></i>
           <span>คัดลอกคำอธิษฐาน</span>
         </button>
@@ -768,14 +809,16 @@
   <div id="historyModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-purple-950/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
     <div class="relative w-full max-w-md rounded-3xl glass-card border border-white/80 p-5 shadow-2xl space-y-4 max-h-[80vh] flex flex-col">
       <div class="flex items-center justify-between pb-3 border-b border-pink-200/50">
-        <div class="flex items-center gap-2">
-          <span class="text-xl">📜</span>
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-pink-500/15 text-pink-600 flex items-center justify-center">
+            <i data-lucide="bookmark" class="w-4 h-4"></i>
+          </div>
           <div>
-            <h3 class="text-base font-bold font-cute text-pink-900">กระทงที่คุณปล่อยลงสายน้ำ</h3>
+            <h3 class="text-sm font-bold font-prompt text-pink-950">กระทงที่คุณปล่อยลงสายน้ำ</h3>
             <p class="text-[11px] text-pink-700/80 font-prompt">ประวัติคำอธิษฐานที่บันทึกไว้ในเครื่องของคุณ</p>
           </div>
         </div>
-        <button onclick="closeHistoryModal()" class="text-pink-400 hover:text-pink-600 p-1 rounded-full hover:bg-pink-100/50 btn-spring">
+        <button onclick="closeHistoryModal()" class="text-pink-400 hover:text-pink-600 p-1 rounded-full hover:bg-pink-100/50 btn-spring" title="ปิด">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -784,9 +827,9 @@
         <!-- Rendered by JS -->
       </div>
 
-      <div class="pt-2 border-t border-pink-200/50 flex justify-between items-center text-[11px] text-pink-600">
-        <button onclick="clearMyHistory()" class="text-rose-500 hover:text-rose-700 text-xs font-cute underline">ล้างประวัติของฉัน</button>
-        <button onclick="closeHistoryModal()" class="py-1.5 px-4 rounded-xl bg-pink-500 text-white font-cute text-xs btn-spring">ปิดหน้าต่าง</button>
+      <div class="pt-2 border-t border-pink-200/50 flex justify-between items-center text-xs text-pink-700 font-prompt">
+        <button onclick="clearMyHistory()" class="text-rose-500 hover:text-rose-700 text-xs font-prompt underline">ล้างประวัติของฉัน</button>
+        <button onclick="closeHistoryModal()" class="py-1.5 px-4 rounded-xl bg-pink-500 text-white font-prompt text-xs btn-spring font-medium">ปิดหน้าต่าง</button>
       </div>
     </div>
   </div>
@@ -1049,6 +1092,28 @@
           osc.stop(now + idx * 0.06 + 1.0);
         });
       }
+
+      // 6. Sky Lantern Rise Chime (Ascending ethereal chord)
+      playLanternRise() {
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        [659.25, 830.61, 987.77, 1318.51].forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+
+          const gain = this.ctx.createGain();
+          gain.gain.setValueAtTime(0.001, now + idx * 0.07);
+          gain.gain.linearRampToValueAtTime(0.12, now + idx * 0.07 + 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.07 + 1.2);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now + idx * 0.07);
+          osc.stop(now + idx * 0.07 + 1.25);
+        });
+      }
     }
 
     const soundEngine = new RomanticSoundEngine();
@@ -1060,18 +1125,19 @@
       const wave = document.getElementById('audioWave');
 
       if (isPlaying) {
-        icon.textContent = '🔊';
-        label.textContent = 'ดนตรีหวาน';
+        icon.innerHTML = '<i data-lucide="volume-2" class="w-4 h-4 text-pink-300"></i>';
+        label.textContent = 'ดนตรี';
         wave.classList.remove('hidden');
         wave.classList.add('flex');
-        showToast('เปิดเสียงดนตรีและสายน้ำสีชมพูแล้ว 🌸🎶', 'info');
+        showToast('เปิดเสียงดนตรีและสายน้ำเรียบร้อย', 'info');
       } else {
-        icon.textContent = '🔇';
-        label.textContent = 'เสียงดนตรี';
+        icon.innerHTML = '<i data-lucide="volume-x" class="w-4 h-4 text-pink-200"></i>';
+        label.textContent = 'ดนตรี';
         wave.classList.add('hidden');
         wave.classList.remove('flex');
         showToast('ปิดเสียงดนตรีเรียบร้อย', 'info');
       }
+      if (window.lucide) lucide.createIcons();
     }
 
     /* ========================================================
@@ -1421,42 +1487,42 @@
       currentlyInspected: null,
     };
 
-    // Pre-curated Romantic & Wholesome Wishes List
+    // Pre-curated Romantic & Wholesome Wishes List (Hallmark Editorial Style)
     const CURATED_WISHES = {
       loveCouple: [
-        "ขอให้ความรักของเราสองคนมั่นคง หวานชื่น และจับมือไปด้วยกันตลอดไปนะ 💕",
-        "ขอให้แฟนรักแฟนหลง มีแต่รอยยิ้มและความสุขในทุกๆ วันที่อยู่เคียงข้างกัน 🥰",
-        "ขอให้ปีนี้และทุกๆ ปี มีเธออยู่ข้างๆ คอยลอยกระทงด้วยกันเสมอนะ 🌸",
-        "ขอให้ปัญหาหรือเรื่องขุ่นเคืองใดๆ ละลายหายไปกับสายน้ำ เหลือไว้แต่ความเข้าใจกัน 💖",
-        "ขอให้ความรักของเราเติบโต อบอุ่น และเป็นเซฟโซนที่ดีที่สุดของกันและกันตลอดไป ✨",
+        "ขอให้ความรักของเราสองคนมั่นคง หวานชื่น และจับมือไปด้วยกันตลอดไป",
+        "ขอให้แฟนรักแฟนหลง มีแต่รอยยิ้มและความสุขในทุกๆ วันที่อยู่เคียงข้างกัน",
+        "ขอให้ปีนี้และทุกๆ ปี มีเธออยู่ข้างๆ คอยลอยกระทงด้วยกันเสมอ",
+        "ขอให้ปัญหาหรือเรื่องขุ่นเคืองใดๆ ละลายหายไปกับสายน้ำ เหลือไว้แต่ความเข้าใจกัน",
+        "ขอให้ความรักของเราเติบโต อบอุ่น และเป็นเซฟโซนที่ดีที่สุดของกันและกันตลอดไป",
       ],
       soulmate: [
-        "ขอให้ปีนี้ได้เจอเนื้อคู่ที่น่ารัก จริงใจ อบอุ่น และเข้ากันได้ดีเข้ามาในชีวิตสักทีเถอะเพี้ยง! 💫",
-        "ลอยกระทงคนเดียวปีนี้ ขอให้เป็นปีสุดท้าย ปีหน้าขอให้มีคนข้างๆ มาลอยด้วยกันนะ 💘",
-        "ขอให้พบเจอใครสักคนที่มองเห็นความน่ารักในตัวเรา และพร้อมจะจับมือเดินไปด้วยกัน 🌸",
-        "ขอให้เสน่ห์พุ่งทะยาน มีคนดีๆ เข้ามาจีบ เข้ามาทำให้หัวใจเต้นแรงและสดใส ✨",
+        "ขอให้ปีนี้ได้เจอเนื้อคู่ที่น่ารัก จริงใจ อบอุ่น และเข้ากันได้ดีเข้ามาในชีวิต",
+        "ลอยกระทงคนเดียวปีนี้ ขอให้เป็นปีสุดท้าย ปีหน้าขอให้มีคนข้างๆ มาลอยด้วยกัน",
+        "ขอให้พบเจอใครสักคนที่มองเห็นความน่ารักในตัวเรา และพร้อมจะจับมือเดินไปด้วยกัน",
+        "ขอให้เสน่ห์พุ่งทะยาน มีคนดีๆ เข้ามาทำให้หัวใจเต้นแรงและสดใส",
       ],
       prosperity: [
-        "ขอให้การงานราบรื่น เงินทองไหลมาเทมาดั่งสายน้ำ ค้าขายคล่องตัว โชคลาภพุ่งเป้า 🌟",
-        "ขอให้โปรเจกต์ปังๆ สอบผ่านฉลุย ได้เลื่อนขั้นเลื่อนตำแหน่ง ชีวิตดีขึ้นในทุกมิติ 💰",
-        "ขอให้มีแต่โอกาสดีๆ และกัลยาณมิตรที่น่ารักเข้ามาเกื้อหนุนในชีวิต 🌈",
+        "ขอให้การงานราบรื่น เงินทองไหลมาเทมาดั่งสายน้ำ ค้าขายคล่องตัว โชคลาภพุ่งเป้า",
+        "ขอให้โปรเจกต์ปังๆ สอบผ่านฉลุย ได้เลื่อนขั้นเลื่อนตำแหน่ง ชีวิตดีขึ้นในทุกมิติ",
+        "ขอให้มีแต่โอกาสดีๆ และกัลยาณมิตรที่น่ารักเข้ามาเกื้อหนุนในชีวิต",
       ],
       happiness: [
-        "ขอขมาพระแม่คงคา ขอให้จิตใจสงบเยือกเย็น สุขภาพแข็งแรง ไร้โรคภัยเบียดเบียน 🌊",
-        "ลอยความทุกข์ ความเศร้า ความนอยด์ออกไป ต้อนรับแต่รอยยิ้มและความสดใสเข้ามา 🌸",
-        "ขอให้ตัวเองรักตัวเองมากๆ ภูมิใจในตัวเอง และมีความสุขกับทุกวันธรรมดาๆ นะคะ 💖",
+        "ขอขมาพระแม่คงคา ขอให้จิตใจสงบเยือกเย็น สุขภาพแข็งแรง ไร้โรคภัยเบียดเบียน",
+        "ลอยความทุกข์ ความเศร้า ความเหนื่อยล้าออกไป ต้อนรับแต่รอยยิ้มและความสดใสเข้ามา",
+        "ขอให้ตัวเองรักตัวเองมากๆ ภูมิใจในตัวเอง และมีความสุขกับทุกวันธรรมดาๆ นะคะ",
       ]
     };
 
     // Realistic Community Mock Krathongs (Simulated vibrant river traffic)
     const MOCK_COMMUNITY_KRATHONGS = [
-      { id: 'mock-1', mode: 'couple', name1: 'พีช', name2: 'มินนี่', type: 'rose', candleColor: '#ff6584', wish: 'ขอให้เรารักกันนานๆ อยู่ฉลองวันลอยกระทงด้วยกันทุกปีเลยนะที่รัก ❤️', hearts: 38, x: 18, y: 35, speed: 0.04, scale: 0.65 },
-      { id: 'mock-2', mode: 'couple', name1: 'พี่นนท์', name2: 'น้องมุก', type: 'lotus', candleColor: '#ffd166', wish: 'ขอให้งานแต่งปีหน้าของเราผ่านไปด้วยดี มีครอบครัวที่อบอุ่นและสมบูรณ์แบบครับ 💍', hearts: 54, x: 55, y: 22, speed: 0.03, scale: 0.52 },
-      { id: 'mock-3', mode: 'solo', name1: 'แพรวาพาเพลิน', name2: '', type: 'bear', candleColor: '#c084fc', wish: 'ขอให้สอบติดคณะแพทย์ในฝัน และขอให้ปีนี้เจอคนที่พร้อมจะรักเราจริงๆ สักคน 🧸', hearts: 29, x: 82, y: 48, speed: 0.05, scale: 0.72 },
-      { id: 'mock-4', mode: 'couple', name1: 'กานต์', name2: 'เจน', type: 'banana', candleColor: '#ffffff', wish: 'ขอให้ความเข้าใจพาเราก้าวผ่านทุกปัญหา มีแต่ความเจริญก้าวหน้าทั้งคู่ 🌸', hearts: 41, x: 34, y: 65, speed: 0.06, scale: 0.85 },
-      { id: 'mock-5', mode: 'solo', name1: 'เดียร์ สายโสด', name2: '', type: 'lotus', candleColor: '#ff6584', wish: 'ลอยคนเดียวอย่างเฉิดฉาย ขอให้รวย สวย ปัง เงินเข้าบัญชีรัวๆๆ ✨', hearts: 67, x: 70, y: 75, speed: 0.07, scale: 0.95 },
-      { id: 'mock-6', mode: 'couple', name1: 'ภูริช', name2: 'เนยหวาน', type: 'rose', candleColor: '#ffd166', wish: 'ขอบคุณที่คอยอยู่ข้างๆ กันมา 4 ปีนะ รักเธอมากขึ้นทุกวันเลยครับ 💖', hearts: 92, x: 10, y: 58, speed: 0.05, scale: 0.78 },
-      { id: 'mock-7', mode: 'couple', name1: 'บอส', name2: 'พลอยใส', type: 'bear', candleColor: '#ff6584', wish: 'ขอให้ทริปเที่ยวสิ้นปีนี้ราบรื่น และขอให้เรามีรอยยิ้มให้กันในทุกๆ เช้า 🐻💕', hearts: 45, x: 45, y: 40, speed: 0.04, scale: 0.68 },
+      { id: 'mock-1', mode: 'couple', name1: 'พีช', name2: 'มินนี่', type: 'rose', candleColor: '#ff6584', wish: 'ขอให้เรารักกันนานๆ อยู่ฉลองวันลอยกระทงด้วยกันทุกปีเลยนะที่รัก', hearts: 38, x: 18, y: 35, speed: 0.04, scale: 0.65 },
+      { id: 'mock-2', mode: 'couple', name1: 'พี่นนท์', name2: 'น้องมุก', type: 'lotus', candleColor: '#ffd166', wish: 'ขอให้งานแต่งปีหน้าของเราผ่านไปด้วยดี มีครอบครัวที่อบอุ่นและสมบูรณ์แบบครับ', hearts: 54, x: 55, y: 22, speed: 0.03, scale: 0.52 },
+      { id: 'mock-3', mode: 'solo', name1: 'แพรวา', name2: '', type: 'bear', candleColor: '#c084fc', wish: 'ขอให้สอบติดคณะในฝัน และขอให้ปีนี้เจอคนที่พร้อมจะรักเราจริงๆ', hearts: 29, x: 82, y: 48, speed: 0.05, scale: 0.72 },
+      { id: 'mock-4', mode: 'couple', name1: 'กานต์', name2: 'เจน', type: 'banana', candleColor: '#ffffff', wish: 'ขอให้ความเข้าใจพาเราก้าวผ่านทุกปัญหา มีแต่ความเจริญก้าวหน้าทั้งคู่', hearts: 41, x: 34, y: 65, speed: 0.06, scale: 0.85 },
+      { id: 'mock-5', mode: 'solo', name1: 'เดียร์', name2: '', type: 'lotus', candleColor: '#ff6584', wish: 'ขอให้ชีวิตราบรื่น การงานก้าวหน้า มีแต่สิ่งดีๆ เข้ามาในชีวิต', hearts: 67, x: 70, y: 75, speed: 0.07, scale: 0.95 },
+      { id: 'mock-6', mode: 'couple', name1: 'ภูริช', name2: 'เนยหวาน', type: 'rose', candleColor: '#ffd166', wish: 'ขอบคุณที่คอยอยู่ข้างๆ กันมา 4 ปีนะ รักเธอมากขึ้นทุกวันเลยครับ', hearts: 92, x: 10, y: 58, speed: 0.05, scale: 0.78 },
+      { id: 'mock-7', mode: 'couple', name1: 'บอส', name2: 'พลอยใส', type: 'bear', candleColor: '#ff6584', wish: 'ขอให้ทริปสิ้นปีนี้ราบรื่น และขอให้เรามีรอยยิ้มให้กันในทุกๆ เช้า', hearts: 45, x: 45, y: 40, speed: 0.04, scale: 0.68 },
     ];
 
     /* ========================================================
@@ -1466,32 +1532,35 @@
       // 1. Render Krathong choice thumbnails
       renderThumbnails();
 
-      // 2. Initialize star field
+      // 2. Render Live Krathong Showcase
+      updateLivePreview();
+
+      // 3. Initialize star field
       createStarField();
 
-      // 3. Initialize Petal canvas
+      // 4. Initialize Petal canvas
       initPetalCanvas();
 
-      // 4. Initialize Fireworks canvas
+      // 5. Initialize Fireworks canvas
       initFireworksCanvas();
 
-      // 5. Load saved Krathongs from localStorage
+      // 6. Load saved Krathongs from localStorage
       loadSavedKrathongs();
 
-      // 6. Spawn initial river community krathongs
+      // 7. Spawn initial river community krathongs
       initRiverScene();
 
-      // 7. Initialize mode to Couple
+      // 8. Initialize mode to Couple
       setFloatingMode('couple');
 
-      // 8. Start periodic community spawner & Sky Lanterns
+      // 9. Start periodic community spawner & Sky Lanterns
       setInterval(spawnCommunityKrathong, 12000);
       setInterval(spawnSkyLantern, 8000);
 
-      // 8. Auto-roll a romantic wish for starting delight
+      // 10. Auto-roll a romantic wish for starting delight
       rollRandomWish();
 
-      // 9. Lucide icons replacement
+      // 11. Lucide icons replacement
       if (window.lucide) {
         lucide.createIcons();
       }
@@ -1714,35 +1783,42 @@
       if (e) e.stopPropagation();
       const rect = e ? e.currentTarget.getBoundingClientRect() : { left: window.innerWidth * 0.7, top: 120 };
       triggerRomanticFirework(rect.left + 50, rect.top + 50);
-      showToast('จุดพลุขอพรใต้แสงจันทร์สำเร็จแล้ว ✨💖', 'success');
+      showToast('จุดพลุขอพรใต้แสงจันทร์สำเร็จแล้ว', 'success');
     }
 
     /* ========================================================
-       H. FLOATING SKY LANTERNS (โคมลอยสีพาสเทล)
+       H. FLOATING SKY LANTERNS (โคมลอยสีพาสเทล ลอยจริงเหนือน้ำสู่ฟ้า)
        ======================================================== */
-    function spawnSkyLantern() {
+    function spawnSkyLantern(isUser = false) {
       const container = document.getElementById('lanternsContainer');
       if (!container) return;
 
       const lantern = document.createElement('div');
-      const startX = 5 + Math.random() * 90;
-      const duration = 22 + Math.random() * 15;
-      const size = 28 + Math.random() * 20;
+      // For user action: pick a clearly visible open view position (14% - 50%)
+      const startX = isUser ? (14 + Math.random() * 36) : (8 + Math.random() * 45);
+      const duration = isUser ? (13 + Math.random() * 4) : (16 + Math.random() * 8);
+      const size = isUser ? (44 + Math.random() * 12) : (34 + Math.random() * 16);
 
-      lantern.className = 'absolute pointer-events-auto cursor-pointer';
+      lantern.className = 'absolute pointer-events-auto cursor-pointer select-none';
       lantern.style.left = `${startX}%`;
-      lantern.style.bottom = `-50px`;
+      lantern.style.bottom = `10%`; // Starts right above the water in clear view!
       lantern.style.width = `${size}px`;
-      lantern.style.height = `${size * 1.3}px`;
-      lantern.style.animation = `lanternRise ${duration}s cubic-bezier(0.25, 1, 0.5, 1) forwards`;
+      lantern.style.height = `${size * 1.35}px`;
+      lantern.style.animation = `lanternRise ${duration}s cubic-bezier(0.25, 1, 0.4, 1) forwards`;
 
       lantern.innerHTML = `
-        <div class="relative w-full h-full flex flex-col items-center justify-center filter drop-shadow-[0_0_12px_rgba(255,182,193,0.8)]">
-          <div class="w-full h-full rounded-t-xl rounded-b-md bg-gradient-to-b from-[#ffe4ec] via-[#fecdd3] to-[#f43f5e] opacity-90 border border-white/50 flex items-center justify-center">
-            <div class="w-2.5 h-3.5 rounded-full bg-yellow-200 animate-ping opacity-75"></div>
+        <div class="relative w-full h-full flex flex-col items-center justify-center filter drop-shadow-[0_0_18px_rgba(255,180,80,0.9)] hover:scale-110 transition-transform">
+          <!-- Glowing Translucent Paper Lantern Body -->
+          <div class="relative w-full h-full rounded-t-2xl rounded-b-lg bg-gradient-to-b from-[#fff2f5] via-[#fecdd3] to-[#f43f5e] border border-white/70 shadow-[inset_0_0_12px_rgba(255,220,140,0.85)] flex items-center justify-center overflow-hidden">
+            <!-- Warm Flickering Flame Core -->
+            <div class="w-3.5 h-4.5 rounded-full bg-gradient-to-t from-amber-400 via-yellow-200 to-white animate-pulse shadow-[0_0_12px_#ff9800]"></div>
+            <!-- Internal Light Beam -->
+            <div class="absolute inset-0 bg-gradient-to-t from-amber-300/40 via-transparent to-transparent pointer-events-none"></div>
           </div>
-          <!-- Little wooden rim -->
-          <div class="w-3/4 h-1 rounded-full bg-[#881337] mt-0.5"></div>
+          <!-- Wooden Bamboo Frame Rim -->
+          <div class="w-4/5 h-1.5 rounded-full bg-[#78350f] border-t border-amber-200/50 -mt-0.5 shadow-sm"></div>
+          <!-- Trailing thread -->
+          <div class="w-0.5 h-3 bg-rose-400/60 rounded-full mt-0.5"></div>
         </div>
       `;
 
@@ -1751,10 +1827,16 @@
         const rect = lantern.getBoundingClientRect();
         triggerRomanticFirework(rect.left + rect.width / 2, rect.top + rect.height / 2);
         lantern.remove();
-        showToast('ปล่อยโคมลอยและขอพรจากฟ้าเรียบร้อย 🏮✨', 'success');
+        showToast('โคมลอยเปล่งประกายขอพรเรียบร้อย', 'success');
       });
 
       container.appendChild(lantern);
+
+      if (isUser) {
+        soundEngine.playLanternRise();
+        showToast('ปล่อยโคมลอยสู่ท้องฟ้าแล้ว ขอให้คำอธิษฐานลอยถึงดวงจันทร์', 'success');
+      }
+
       setTimeout(() => {
         lantern.remove();
       }, duration * 1000);
@@ -1799,20 +1881,23 @@
       el.style.transform = `scale(${scale})`;
       el.style.zIndex = Math.floor(yPercent * 10);
 
-      // Names label
+      // Names label (Clean typography without emoji spam)
       let nameLabel = '';
       if (data.mode === 'couple') {
-        nameLabel = `${data.name1 || 'คู่รัก'} ❤️ ${data.name2 || 'แสนดี'}`;
+        nameLabel = `${data.name1 || 'คู่รัก'} & ${data.name2 || 'แสนดี'}`;
       } else {
-        nameLabel = `🌸 ${data.name1 || 'คนน่ารัก'}`;
+        nameLabel = `${data.name1 || 'คนน่ารัก'}`;
       }
 
       el.innerHTML = `
         <div class="relative flex flex-col items-center krathong-bob">
           <!-- Floating Name Pill above Krathong -->
-          <div class="mb-1 px-2.5 py-0.5 rounded-full glass-pink border border-white/70 text-[10px] md:text-xs font-cute text-pink-900 shadow-md whitespace-nowrap flex items-center gap-1 group-hover:scale-110 group-hover:bg-white transition-all">
-            <span>${nameLabel}</span>
-            <span class="text-rose-500 text-[10px]">❤️ ${data.hearts || 1}</span>
+          <div class="mb-1 px-2.5 py-0.5 rounded-full glass-pink border border-white/70 text-[11px] font-prompt text-pink-950 shadow-md whitespace-nowrap flex items-center gap-1.5 group-hover:scale-110 group-hover:bg-white transition-all">
+            <span class="font-medium">${nameLabel}</span>
+            <span class="text-rose-500 text-[10px] flex items-center gap-0.5 font-semibold">
+              <svg class="w-2.5 h-2.5 fill-current inline" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              ${data.hearts || 1}
+            </span>
           </div>
 
           <!-- Candle Reflection Shimmer on Water below -->
@@ -1873,11 +1958,11 @@
       const types = ['lotus', 'rose', 'banana', 'bear'];
       const candleColors = ['#ff6584', '#ffd166', '#c084fc', '#ffffff'];
       const sampleCouples = [
-        ['วิน', 'มายด์', 'ขอให้เรารักกันและเติบโตไปด้วยกันทุกวันนะ ❤️'],
-        ['พอร์ช', 'ฟองเบียร์', 'จับมือข้ามผ่านทุกอุปสรรคไปด้วยกันนะที่รัก 🌸'],
-        ['ก้อง', 'ฟ้า', 'ขอให้ครอบครัวของเราอบอุ่นและมีแต่รอยยิ้มครับ ✨'],
-        ['ไอซ์', '', 'ขอให้เจอเนื้อคู่เร็วๆ ลอยคนเดียวแต่หัวใจยังสดใส 💖'],
-        ['เบสท์', 'พลอย', 'ขอให้ปีนี้มีความสุขและรักกันมากกว่าเดิม 💑'],
+        ['วิน', 'มายด์', 'ขอให้เรารักกันและเติบโตไปด้วยกันทุกวันนะ'],
+        ['พอร์ช', 'ฟองเบียร์', 'จับมือข้ามผ่านทุกอุปสรรคไปด้วยกันนะที่รัก'],
+        ['ก้อง', 'ฟ้า', 'ขอให้ครอบครัวของเราอบอุ่นและมีแต่รอยยิ้มครับ'],
+        ['ไอซ์', '', 'ขอให้เจอเนื้อคู่เร็วๆ หัวใจยังสดใสและมีความหวัง'],
+        ['เบสท์', 'พลอย', 'ขอให้ปีนี้มีความสุขและรักกันมากกว่าเดิม'],
       ];
 
       const chosen = sampleCouples[Math.floor(Math.random() * sampleCouples.length)];
@@ -1920,7 +2005,7 @@
 
         soloWrapper.classList.remove('hidden');
         coupleWrapper.classList.add('hidden');
-        badgeHint.textContent = 'โหมดลอยเดี่ยว สดใสทรงพลัง 🌸';
+        badgeHint.textContent = 'โหมดลอยเดี่ยว (Solo)';
       } else {
         slider.style.transform = 'translateX(100%)';
         btnCouple.classList.add('text-white', 'font-bold');
@@ -1930,7 +2015,7 @@
 
         coupleWrapper.classList.remove('hidden');
         soloWrapper.classList.add('hidden');
-        badgeHint.textContent = 'โหมดคู่รักสุดหวาน 💑';
+        badgeHint.textContent = 'โหมดคู่รัก (Couple)';
       }
 
       // Roll relevant wish when toggling
@@ -1940,36 +2025,102 @@
     function selectKrathong(type) {
       APP_STATE.selectedKrathong = type;
       const titles = {
-        lotus: 'กระทงดอกบัวชมพูมงคล 🌸',
-        rose: 'กระทงกลีบกุหลาบวาเลนไทน์ 🌹',
-        banana: 'กระทงใบตองวิจิตรพาสเทล 🌿',
-        bear: 'กระทงขนมปังน้องหมีสื่อรัก 🧸',
+        lotus: 'กระทงดอกบัวชมพู',
+        rose: 'กระทงกลีบกุหลาบ',
+        banana: 'กระทงใบตองวิจิตร',
+        bear: 'กระทงขนมปังน้องหมี',
       };
-      document.getElementById('selectedKrathongTitle').textContent = titles[type];
+      document.getElementById('selectedKrathongTitle').textContent = titles[type] || 'กระทงดอกบัวชมพู';
 
       // Update card visual active ring
       ['lotus', 'rose', 'banana', 'bear'].forEach(t => {
         const card = document.getElementById(`krathongCard-${t}`);
-        if (t === type) {
-          card.classList.add('border-pink-400', 'ring-2', 'ring-pink-300/80', 'bg-white/60');
-          card.classList.remove('border-pink-200/80', 'bg-white/30');
-        } else {
-          card.classList.remove('border-pink-400', 'ring-2', 'ring-pink-300/80', 'bg-white/60');
-          card.classList.add('border-pink-200/80', 'bg-white/30');
+        if (card) {
+          if (t === type) {
+            card.classList.add('border-pink-400', 'ring-2', 'ring-pink-300/80', 'bg-white/60');
+            card.classList.remove('border-pink-200/80', 'bg-white/30');
+          } else {
+            card.classList.remove('border-pink-400', 'ring-2', 'ring-pink-300/80', 'bg-white/60');
+            card.classList.add('border-pink-200/80', 'bg-white/30');
+          }
         }
       });
+
+      updateLivePreview();
       soundEngine.playWaterPlop();
     }
 
-    function setCandleColor(color, label) {
+    // UPDATE LIVE KRATHONG SHOWCASE (Emil Kowalski Tactile Stage)
+    function updateLivePreview() {
+      const stage = document.getElementById('liveKrathongStage');
+      if (stage) {
+        stage.innerHTML = getKrathongSvg(
+          APP_STATE.selectedKrathong,
+          APP_STATE.candleColor,
+          APP_STATE.charmDecor,
+          '100%'
+        );
+      }
+
+      const modelName = document.getElementById('showcaseModelName');
+      if (modelName) {
+        const titles = {
+          lotus: 'กระทงดอกบัวชมพู',
+          rose: 'กระทงกลีบกุหลาบ',
+          banana: 'กระทงใบตองวิจิตร',
+          bear: 'กระทงขนมปังน้องหมี',
+        };
+        modelName.textContent = titles[APP_STATE.selectedKrathong] || 'กระทงดอกบัวชมพู';
+      }
+
+      const glow = document.getElementById('showcaseGlow');
+      if (glow) {
+        glow.style.backgroundColor = APP_STATE.candleColor + '35';
+      }
+    }
+
+    // FIXED & HIGH-CRAFT CANDLE COLOR SELECTOR
+    function setCandleColor(color, label, btnEl) {
       APP_STATE.candleColor = color;
+
+      // Update active tactile indicators across all buttons
+      const buttons = document.querySelectorAll('.candle-color-btn');
+      buttons.forEach(btn => {
+        const btnColor = btn.getAttribute('data-color');
+        const checkIcon = btn.querySelector('[data-lucide="check"], svg');
+        
+        if (btnColor === color || btn === btnEl) {
+          btn.className = 'candle-color-btn relative w-7 h-7 rounded-full ring-2 ring-offset-2 ring-pink-500 scale-105 shadow-sm btn-spring flex items-center justify-center cursor-pointer ' + (color === '#ffffff' ? 'text-pink-600 bg-white ring-pink-400' : 'text-white');
+          if (color === '#ffd166') btn.className += ' text-slate-800';
+          btn.style.backgroundColor = color;
+          if (checkIcon) checkIcon.classList.remove('hidden');
+        } else {
+          btn.className = 'candle-color-btn relative w-7 h-7 rounded-full ring-1 ring-white/80 shadow-sm btn-spring flex items-center justify-center cursor-pointer ' + (btnColor === '#ffffff' ? 'text-pink-600 bg-white' : 'text-white');
+          btn.style.backgroundColor = btnColor;
+          if (checkIcon) checkIcon.classList.add('hidden');
+        }
+      });
+
+      // Update Showcase Badges
+      const dot = document.getElementById('showcaseCandleDot');
+      if (dot) dot.style.backgroundColor = color;
+      
+      const lbl = document.getElementById('showcaseCandleLabel');
+      if (lbl) lbl.textContent = `เทียนสี${label}`;
+
+      // Update Live Showcase & Thumbnails
+      updateLivePreview();
       renderThumbnails();
-      showToast(`เลือกสีเทียน: ${label} ✨`, 'info');
+
+      // Feedback
+      showToast(`เลือกสีเทียน: ${label}`, 'info');
       soundEngine.playWaterPlop();
+      if (window.lucide) lucide.createIcons();
     }
 
     function updateKrathongPreview() {
       APP_STATE.charmDecor = document.getElementById('charmDecorSelect').value;
+      updateLivePreview();
       renderThumbnails();
     }
 
@@ -2074,7 +2225,7 @@
       updateMyKrathongBadge();
 
       // 7. Show Toast feedback
-      showToast('ปล่อยกระทงลงสู่สายน้ำสีชมพูเรียบร้อยแล้ว ขอให้สมหวังดั่งคำอธิษฐานนะคะ ✨💖', 'success');
+      showToast('ปล่อยกระทงลงสู่สายน้ำเรียบร้อยแล้ว ขอให้สมหวังดั่งคำอธิษฐาน', 'success');
 
       // 8. Auto open memory card preview option after launch!
       setTimeout(() => {
@@ -2100,18 +2251,20 @@
       preview.innerHTML = getKrathongSvg(data.type, data.candleColor, data.charm || 'jasmine', '100%');
 
       if (data.mode === 'couple') {
-        badge.innerHTML = '<span>💑</span> <span>ลอยคู่รัก</span>';
-        badge.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-cute bg-rose-100 text-rose-700 border border-rose-200 mb-1.5';
-        nameHeader.textContent = `${data.name1 || 'คู่รัก'} ❤️ ${data.name2 || 'แสนดี'}`;
+        badge.innerHTML = '<i data-lucide="heart" class="w-3.5 h-3.5 fill-current text-rose-600"></i> <span>ลอยคู่รัก</span>';
+        badge.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-prompt bg-rose-100 text-rose-700 border border-rose-200 mb-1.5 font-medium';
+        nameHeader.textContent = `${data.name1 || 'คู่รัก'} & ${data.name2 || 'แสนดี'}`;
       } else {
-        badge.innerHTML = '<span>🌸</span> <span>ลอยเดี่ยว</span>';
-        badge.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-cute bg-pink-100 text-pink-700 border border-pink-200 mb-1.5';
+        badge.innerHTML = '<i data-lucide="user" class="w-3.5 h-3.5 text-pink-600"></i> <span>ลอยเดี่ยว</span>';
+        badge.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-prompt bg-pink-100 text-pink-700 border border-pink-200 mb-1.5 font-medium';
         nameHeader.textContent = data.name1 || 'คนน่ารัก';
       }
 
       wishText.textContent = data.wish || 'ขอให้ชีวิตมีความสุข รอยยิ้ม และความรักที่งดงาม';
       timestamp.textContent = data.timestamp ? `ลอยเมื่อเวลา ${data.timestamp}` : 'ลอยในค่ำคืนนี้';
       heartCount.textContent = data.hearts || 1;
+
+      if (window.lucide) lucide.createIcons();
 
       modal.classList.remove('hidden');
       requestAnimationFrame(() => {
@@ -2155,11 +2308,14 @@
       if (domEl) {
         const heartSpan = domEl.querySelector('.text-rose-500');
         if (heartSpan) {
-          heartSpan.textContent = `❤️ ${data.hearts}`;
+          heartSpan.innerHTML = `
+            <svg class="w-2.5 h-2.5 fill-current inline" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            ${data.hearts}
+          `;
         }
       }
 
-      showToast('ส่งความรักและกำลังใจให้กระทงนี้แล้ว 💖', 'success');
+      showToast('ส่งความรักและกำลังใจให้กระทงนี้แล้ว', 'success');
     }
 
     /* ========================================================
@@ -2313,8 +2469,8 @@
               <p class="text-[11px] text-pink-800/80 truncate italic">"${k.wish}"</p>
               <span class="text-[10px] text-pink-400">${k.timestamp || 'เมื่อสักครู่'}</span>
             </div>
-            <button onclick='viewSavedCard(${index})' class="px-2 py-1 rounded-lg bg-pink-100 hover:bg-pink-200 text-pink-700 font-cute text-[10px] btn-spring flex-shrink-0">
-              ดูการ์ด 💌
+            <button onclick='viewSavedCard(${index})' class="px-2.5 py-1 rounded-lg bg-pink-100 hover:bg-pink-200 text-pink-700 font-prompt text-[11px] btn-spring flex-shrink-0">
+              ดูการ์ด
             </button>
           `;
           list.appendChild(item);
@@ -2355,19 +2511,25 @@
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
 
-      const icons = {
-        success: '💖',
-        info: '🌸',
-        error: '⚠️',
-      };
+      let iconName = 'sparkles';
+      let iconColor = 'text-pink-500';
+      if (type === 'success') {
+        iconName = 'heart';
+        iconColor = 'text-rose-500 fill-current';
+      } else if (type === 'error') {
+        iconName = 'alert-circle';
+        iconColor = 'text-amber-500';
+      }
 
-      toast.className = 'px-4 py-2.5 rounded-2xl glass-card text-pink-950 text-xs md:text-sm font-prompt shadow-xl border border-white/80 flex items-center gap-2 transform -translate-y-4 opacity-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]';
+      toast.className = 'px-4 py-2.5 rounded-2xl glass-card text-pink-950 text-xs md:text-sm font-prompt shadow-xl border border-white/80 flex items-center gap-2.5 transform -translate-y-4 opacity-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]';
       toast.innerHTML = `
-        <span class="text-base">${icons[type] || '✨'}</span>
+        <i data-lucide="${iconName}" class="w-4 h-4 ${iconColor} flex-shrink-0"></i>
         <span class="font-medium">${message}</span>
       `;
 
       container.appendChild(toast);
+      if (window.lucide) lucide.createIcons();
+
       requestAnimationFrame(() => {
         toast.classList.remove('-translate-y-4', 'opacity-0');
         toast.classList.add('translate-y-0', 'opacity-100');
@@ -2377,7 +2539,7 @@
         toast.classList.remove('translate-y-0', 'opacity-100');
         toast.classList.add('-translate-y-4', 'opacity-0');
         setTimeout(() => toast.remove(), 350);
-      }, 4200);
+      }, 3800);
     }
 
     /* ========================================================
